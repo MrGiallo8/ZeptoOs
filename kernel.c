@@ -25,19 +25,12 @@ typedef struct __attribute__((packed)) {
 extern uint8_t _binary_fs_img_start[];
 extern uint8_t _binary_fs_img_end[];
 
-void error(){
-	clear_screen();
-	write_center("A critic error has occurred",3,ROSSO);
-	write_center("ZeptoOs now will restart...",5,BIANCO);
-	write_center("Critical error on loading the kernel.c",8,BIANCO);
-	delay_s(5);
-}
+
 void kernel_main() {
     uint8_t *disk = _binary_fs_img_start;
     BootSector *bs = (BootSector*)disk;
-
     (void)bs;
-	error();
+    
     startOS();
     terminal_run();
 }
