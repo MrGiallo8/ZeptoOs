@@ -134,7 +134,7 @@ void print_int(int n){
 	}
 }
 // printf finale 
-void write(const char *fmt , ...){ // il '...' dice alla CPU che ci sono x argomenti
+void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 	va_list args; // legge le variabili inseriti nello stack uno alla volta
 	va_start(args, fmt);
 	// ciclo che prende fmt fino a quando non trova '/0'
@@ -262,7 +262,7 @@ int strcmp_n(const char *a, const char *b, int n) {
 void disable_cursor(void) {
     // Seleziona il registro 0x0A (Cursor Start Register)
     __asm__ volatile ("outb %0, %1" :: "a"((uint8_t)0x0A), "Nd"((uint16_t)0x3D4));
-    // Bit 5 = 1 → cursore disabilitato
+    // Bit 5 = 1 allora cursore disabilitato
     __asm__ volatile ("outb %0, %1" :: "a"((uint8_t)0x20), "Nd"((uint16_t)0x3D5));
 }
 

@@ -38,7 +38,8 @@ enum colori {
 
 extern int pos_char;
 
-// unsigned char current_color = 0x07; // bianco su nero di default
+// unsigned char current_color = 0x07;
+// bianco su nero di default
 
 // indirizzo memoria video e colori
 #define video_mem 0xB8000

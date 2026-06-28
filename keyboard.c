@@ -58,11 +58,11 @@ char kb_getchar(void) {
     for(;;) {
         uint8_t sc = kb_scan();
         switch(sc) {
-            case 0x2A: case 0x36: kb_shift=1; continue;  // Lshift/Rshift press
-            case 0xAA: case 0xB6: kb_shift=0; continue;  // Lshift/Rshift release
-            case 0x1D: kb_ctrl=1; continue;               // Ctrl press
-            case 0x9D: kb_ctrl=0; continue;               // Ctrl release
-            case 0x3A: kb_caps=!kb_caps; continue;        // CapsLock toggle
+            case 0x2A: case 0x36: kb_shift=1; continue;  
+            case 0xAA: case 0xB6: kb_shift=0; continue;  
+            case 0x1D: kb_ctrl=1; continue;              
+            case 0x9D: kb_ctrl=0; continue;             
+            case 0x3A: kb_caps=!kb_caps; continue;       
         }
         if (sc & 0x80) continue;  // altri break code: ignora
         if (sc >= 128)  continue;  // fuori range: ignora
