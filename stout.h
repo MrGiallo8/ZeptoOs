@@ -1,4 +1,4 @@
-#ifndef STOUT_H   // evita di includere il file due volte
+#ifndef STOUT_H 
 #define STOUT_H
 
 extern unsigned char current_color;
@@ -51,6 +51,7 @@ void pputs(const char *s);
 void print_int(int n);
 void write(const char *fmt, ...);
 void clear_screen();
+
 //write center
 void write_center(const char *str, int y, enum colori colore);
 

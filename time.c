@@ -12,12 +12,12 @@ static inline void outb(uint16_t porta, uint8_t v) {
     __asm__ volatile ("outb %0,%1" : : "a"(v), "Nd"(porta));
 }
 static uint16_t pit_leggi(void) {
-    outb(pit_comando, 0x00);        // congela il valore
+    outb(pit_comando, 0x00);        // congela valore
     uint8_t lo = inb(pit_canale0); // leggi byte basso
     uint8_t hi = inb(pit_canale0); // leggi byte alto
     return (uint16_t)(hi << 8) | lo;
 }
-// aspetta millisecondi ( 1.193.180 tick/sec -> 1193 tick/ms)
+// aspetta millisecondi 
 void delay_ms(uint32_t ms) {
     while (ms--) {
         uint16_t start = pit_leggi();

@@ -66,19 +66,19 @@ void text_editor() {
             write("  %d: %s\n", i + 1, editor_buffer[i]);
         }
         write("%k-- fine -- continua a scrivere, ***quit per uscire --%k\n", GIALLO, BIANCO);
-        line = editor_line_count;  // continua dall'ultima riga
+        line = editor_line_count;  // continua dall'ultima riga 
     }
 
     while (1) {
         kb_readline(input, MAX_LINE_LEN, pputc);
 
         if (strcmp(input, "***quit") == 0) {
-            // Salva in RAM prima di uscire
+            // Salva in RAM
             editor_line_count = line;
             return;
 
         } else if (strcmp(input, "***show") == 0) {
-            // Mostra il testo scritto finora
+            // Mostra il testo scritto fino ad ora
             for (int i = 0; i < line; i++) {
                 write("  %d: %s\n", i + 1, editor_buffer[i]);
             }
@@ -91,7 +91,6 @@ void text_editor() {
 
         } else if (line < MAX_LINES) {
             // Salva la riga nel buffer
-            // strcpy o la tua versione equivalente
             int i;
             for (i = 0; input[i] && i < MAX_LINE_LEN - 1; i++)
                 editor_buffer[line][i] = input[i];

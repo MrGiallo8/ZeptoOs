@@ -66,7 +66,7 @@ void pputc(char x) {
 		if (pos_char >= 80 * 25) {
         scroll();
     	}
-		return;// esce dalla funzione
+		return;
 		
 	} else if (x == '\t') {
 		int colonna = pos_char % 80; // posizione 
@@ -108,7 +108,7 @@ void pputs(const char *s) {
 }
 
 void print_int(int n){
-	char buffer[20]; //array da 20 byte ( quindi 20 caratteri) basta 
+	char buffer[20]; //array da 20 caratteri
 	int i = 0;
 
 	// se il numero è 0 allora scrivi 0
@@ -117,7 +117,7 @@ void print_int(int n){
 		return;
 	}
 
-	// se il numero è negativo metti un 'meno' davanti
+	// se il numero è negativo metti un meno davanti
 	if (n<0){
 		pputc('-');
 		n=-n; // n positivo
@@ -162,7 +162,7 @@ void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 			    current_color = (NERO << 4) | testo;
 			}
 
-			else if (*fmt == 'g'){ //posizione (x,y)   
+			else if (*fmt == 'g'){ // posizione (x,y)   
 				int x = va_arg(args, int);
 				int y = va_arg(args, int);
 				pos_char = y * 80 + x;
@@ -207,33 +207,33 @@ void clear_screen(){
 // ----------  bordo ----------
 
 void bordo() {
-    // angolo in alto a sinistra
+    // alto a sinistra
     write("%g", 0, 0); 
     pputc(0xC9);
     
-    // riga superiore
+    // superiore
     for (int i = 1; i < 79; i++) {
         write("%g", i, 0); pputc(0xCD);
     }
     
-    // angolo in alto a destra
+    // alto a destra
     write("%g", 79, 0); pputc(0xBB);
 
     // bordi laterali
     for (int i = 1; i < 24; i++) {
-        write("%g", 0,  i); pputc(0xBA);  // sinistro
-        write("%g", 79, i); pputc(0xBA);  // destro
+        write("%g", 0,  i); pputc(0xBA);  // sx
+        write("%g", 79, i); pputc(0xBA);  // dx
     }
 
-    // angolo in basso a sinistra
+    // basso a sinistra
     write("%g", 0, 24); pputc(0xC8);
 
-    // riga inferiore
+    // inferiore
     for (int i = 1; i < 79; i++) {
         write("%g", i, 24); pputc(0xCD);
     }
 
-    // angolo in basso a destra
+    // basso a destra
     write("%g", 79, 24); pputc(0xBC);
 }
 
@@ -255,7 +255,7 @@ int strcmp_n(const char *a, const char *b, int n) {
         b++;
         n--;
     }
-    return 0; // I primi n caratteri sono identici!
+    return 0; // I primi n caratteri sono identici
 }
 
 // disabilitare cursore
