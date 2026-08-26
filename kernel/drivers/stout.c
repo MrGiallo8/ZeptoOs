@@ -2,6 +2,7 @@ typedef __builtin_va_list va_list;
 #define va_start(ap, last) __builtin_va_start(ap, last)
 #define va_arg(ap, type)   __builtin_va_arg(ap, type)
 #define va_end(ap)         __builtin_va_end(ap)
+#define va_arg(v, l)    __builtin_va_arg(v, l)
 
 unsigned char current_color = 0x07;
 
@@ -60,7 +61,7 @@ void scroll() {
 void pputc(char x) {
 	volatile char *video = (volatile char*)video_mem;
 	
-	if (x == '\n') {
+	if (x == '\n'){ 
 		int riga = pos_char / 80; // posizione
 		pos_char=(riga + 1) * 80;
 		if (pos_char >= 80 * 25) {
@@ -261,9 +262,9 @@ int strcmp_n(const char *a, const char *b, int n) {
 // disabilitare cursore
 void disable_cursor(void) {
     // Seleziona il registro 0x0A (Cursor Start Register)
-    __asm__ volatile ("outb %0, %1" :: "a"((uint8_t)0x0A), "Nd"((uint16_t)0x3D4));
+    __asm volatile ("outb %0, %1" :: "a"((uint8_t)0x0A), "Nd"((uint16_t)0x3D4));
     // Bit 5 = 1 allora cursore disabilitato
-    __asm__ volatile ("outb %0, %1" :: "a"((uint8_t)0x20), "Nd"((uint16_t)0x3D5));
+    __asm volatile ("outb %0, %1" :: "a"((uint8_t)0x20), "Nd"((uint16_t)0x3D5));
 }
 
 //---------------- STARTING OS ----------------------------------
@@ -284,8 +285,6 @@ void startOS (){
 	delay_ms(200);
 	delay_s(1);
 	write_center("v0.2.0",  9, VERDE_CHIARO);
-	delay_s(1);
-	write_center("Don't fall for who wants you to believe them , learn yourself",11, BIANCO);
 	delay_s(1);
 	for(int i=0;i<3;i++){
 		write_center("|", 13, BIANCO);

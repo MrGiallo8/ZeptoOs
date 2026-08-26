@@ -30,7 +30,7 @@ void kernel_main() {
     uint8_t *disk = _binary_fs_img_start;
     BootSector *bs = (BootSector*)disk;
     (void)bs;
-    
+    time_init();
     startOS();
     terminal_run();
 }

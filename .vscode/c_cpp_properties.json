@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "ZeptoOS",
+            "includePath": [
+                "${workspaceFolder}/kernel/includes",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include"
+            ],
+            "defines": [
+                "__GNUC__=15"
+            ],
+            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+            "cStandard": "gnu99",
+            "intelliSenseMode": "windows-gcc-x86"
+        }
+    ],
+    "version": 4
+}

@@ -14,12 +14,12 @@ typedef signed long long   int64_t;   // 64 bit con segno
 // input
 static inline uint8_t inb(uint16_t p) {
     uint8_t v;
-    __asm__ volatile("inb %1,%0":"=a"(v):"Nd"(p));
+    __asm volatile("inb %1,%0":"=a"(v):"Nd"(p));
     return v;
 }
 //output
 static inline void outb(uint16_t p, uint8_t v) {
-    __asm__ volatile("outb %0,%1"::"a"(v),"Nd"(p));
+    __asm volatile("outb %0,%1"::"a"(v),"Nd"(p));
 }
 
 // ------------ Costanti porte ------------
