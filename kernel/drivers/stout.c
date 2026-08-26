@@ -307,3 +307,24 @@ void startOS (){
 	delay_ms(500);
 	clear_screen();
 }
+
+// random
+uint64_t uptime ; 
+uint64_t min ;
+uint64_t sec ;
+uint64_t hrs ;
+
+int random(){
+	uptime = get_uptime_sec(); 
+ 	min = get_rtc_minutes() ;
+ 	sec = get_rtc_seconds();
+	hrs = get_rtc_hours();
+
+    uint64_t valore_random = ((uptime * 3600) + (hrs * 60) + min + sec) * 8740652293ULL + 62773ULL;
+
+    valore_random = (valore_random << 45) | (valore_random >> 13); // rotazione bits
+    valore_random ^= 0xA5B3E299;
+
+    return random;
+}
+

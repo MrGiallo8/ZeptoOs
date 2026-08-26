@@ -65,4 +65,6 @@ int strcmp_n(const char *a, const char *b, int n);
 
 void disable_cursor(void);
 
+int random();
+
 #endif

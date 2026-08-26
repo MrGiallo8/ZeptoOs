@@ -70,7 +70,6 @@ uint32_t get_uptime_sec(void) {
     return current - start_time_seconds;
 }
 
-
 // orario vero
 
 uint8_t get_rtc_hours(){
