@@ -1,7 +1,8 @@
-#include "stout.h"
-#include "keyboard.h"
-#include "time.h"
-#include "shell.h"
+#include "../includes/stdfuncs.h"
+#include "../includes/stout.h"
+#include "../includes/keyboard.h"
+#include "../includes/time.h"
+#include "../includes/shell.h"
 
 // Struttura del Boot Sector FAT12
 typedef struct __attribute__((packed)) {

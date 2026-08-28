@@ -1,4 +1,5 @@
 #include "../includes/stout.h"
+#include "../includes/stdfuncs.h"
 
 #define pit_canale0 0x40
 #define pit_comando 0x43

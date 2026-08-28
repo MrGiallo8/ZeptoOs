@@ -1,6 +1,7 @@
 #include "../includes/stout.h"
 #include "../includes/keyboard.h"
 #include "../includes/time.h"
+#include "../includes/stdfuncs.h"
 
 #define MAX_LINES 64
 #define MAX_LINE_LEN 256
