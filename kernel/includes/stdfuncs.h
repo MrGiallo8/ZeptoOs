@@ -1,6 +1,7 @@
 #ifndef STDFUNCS_H 
 #define STDFUNCS_H
 
+#include "stout.h"
 
 // dichiarazioni print putc puts
 

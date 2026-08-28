@@ -16,27 +16,6 @@ typedef unsigned short uint16_t;
 typedef unsigned int   uint32_t;
 typedef unsigned long  uint64_t;
 
-// ---------- colori ----------
-
-enum colori {
-    NERO        = 0,
-    BLU         = 1,
-    VERDE       = 2,
-    CIANO       = 3,
-    ROSSO       = 4,
-    MAGENTA     = 5,
-    MARRONE     = 6,
-    GRIGIO      = 7,
-    GRIGIO_SCURO = 8,
-    BLU_CHIARO  = 9,
-    VERDE_CHIARO = 10,
-    CIANO_CHIARO = 11,
-    ROSSO_CHIARO = 12,
-    ROSA        = 13,
-    GIALLO      = 14,
-    BIANCO      = 15
-};
-
 //funzione putc , driver video per impostazione casella = carattere
 int pos_char = 0;
 

@@ -14,6 +14,7 @@ OBJS = $(BUILD)/boot.o \
        $(BUILD)/keyboard.o \
        $(BUILD)/time.o \
        $(BUILD)/shell.o \
+	   $(BUILD)/stdfuncs.o \
        $(BUILD)/fs.o 
 
 all: $(BUILD) $(BUILD)/kernel.bin
@@ -50,6 +51,10 @@ $(BUILD)/shell.o: kernel/drivers/shell.c kernel/includes/shell.h
 
 $(BUILD)/fs.o: fs.img
 	$(LD) -m elf_i386 -r -b binary fs.img -o $(BUILD)/fs.o
+
+$(BUILD)/stdfuncs.o: kernel/drivers/stdfuncs.c kernel/includes/stdfuncs.h
+	$(CC) $(CFLAGS) -c kernel/drivers/stdfuncs.c -o $@
+	@echo "> stdfuncs.c compilato"
 
 $(BUILD)/kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $(BUILD)/kernel.bin $(OBJS)
