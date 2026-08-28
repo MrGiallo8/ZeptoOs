@@ -129,8 +129,14 @@ void terminal_run(){
 			text_editor();
 		}
 		else if(strcmp(input, "random64")==0){
-			uint64_t n_random = random();
-			write("%k%d\n",BIANCO,n_random);
+			uint64_t n_random = random64();
+			write("%k%u\n\n", BIANCO, n_random);
+		}
+		else if(strcmp_n(input, "random", 6)== 0){
+			char *argomento = input + 7;
+			int cifre = str_to_int(argomento);
+			uint64_t random_number = random_dig(cifre);
+			write("%k%u\n\n",BIANCO,random_number);
 		}
 		else if(strcmp(input, "") == 0){
 			// Nulla

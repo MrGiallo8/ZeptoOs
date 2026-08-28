@@ -141,7 +141,7 @@ void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 	// ciclo che prende fmt fino a quando non trova '/0'
 	while (*fmt) { 
 		if (*fmt == '%'){
-			fmt++;//carattere dopo il '%'
+			fmt++; //carattere dopo il '%'
 
 			if(*fmt == 's'){
 				char *str = va_arg(args, char*); // legge il valore di args e lo interperptreta come char
@@ -152,10 +152,30 @@ void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 				int num = va_arg(args, int); // legge il valore di args e lo interperptreta come numero intero
 				print_int(num);
 			}
+
+			else if (*fmt == 'u') {
+				uint64_t num = va_arg(args, uint64_t );
+
+				char buffer[32];
+				int i=0;
+
+				if(num == 0){
+					print_int(0);
+				} else {
+					while (num > 0){
+						buffer[i++] = '0' + (num%10);
+						num/=10;
+					}
+
+					while (i > 0){
+						pputc(buffer[--i]);
+					}
+				}
+			}
 			
 			else if (*fmt == 'c') {
-				 char c = (char)va_arg(args, int); // legge il valore di args e lo interperptreta come int e poi char
-				 pputc(c);
+				char c = (char)va_arg(args, int); // legge il valore di args e lo interperptreta come int e poi char
+				pputc(c);
 			}
 
 			else if (*fmt == 'k') { // colori
@@ -314,7 +334,7 @@ uint64_t min ;
 uint64_t sec ;
 uint64_t hrs ;
 
-int random(){
+uint64_t random64(){
 	uptime = get_uptime_sec(); 
  	min = get_rtc_minutes() ;
  	sec = get_rtc_seconds();
@@ -322,9 +342,41 @@ int random(){
 
     uint64_t valore_random = ((uptime * 3600) + (hrs * 60) + min + sec) * 8740652293ULL + 62773ULL;
 
-    valore_random = (valore_random << 45) | (valore_random >> 13); // rotazione bits
+    valore_random = (valore_random << 45) | (valore_random >> 19); // rotazione bits
     valore_random ^= 0xA5B3E299;
 
-    return random;
+	uint64_t x = valore_random;
+    x ^= x << 13;
+    x ^= x >> 7;
+    x ^= x << 17;
+    valore_random = x;
+
+    return valore_random;
 }
 
+uint64_t random_dig(int cifre){
+	
+	if (cifre <= 0) return 0;  
+	if (cifre > 19) cifre=19 ;
+
+	if (cifre == 1) {
+        return random64() % 10;
+    }
+	
+	int min; int max;
+	for (int i=0; i< cifre-1; i++){
+		min*=10;
+	}
+	max = (min * 10) -1;
+
+	uint64_t range = (max - min) + 1;
+    return min + (random64() % range);
+}
+
+int str_to_int(char str[]){
+	int integer=0;
+	for(int i=0; str[i] != '\0'; i++){
+		integer = (integer * 10) + (str[i] - '0');
+	}
+	return integer;
+}

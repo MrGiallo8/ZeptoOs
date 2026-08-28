@@ -65,6 +65,8 @@ int strcmp_n(const char *a, const char *b, int n);
 
 void disable_cursor(void);
 
-int random();
+uint64_t random();
+uint64_t random_dig(int cifre);
+int str_to_int(char str[]);
 
 #endif
