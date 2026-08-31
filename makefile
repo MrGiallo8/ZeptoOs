@@ -15,6 +15,7 @@ OBJS = $(BUILD)/boot.o \
        $(BUILD)/time.o \
        $(BUILD)/shell.o \
 	   $(BUILD)/stdfuncs.o \
+	   $(BUILD)/games.o \
        $(BUILD)/fs.o 
 
 all: $(BUILD) $(BUILD)/kernel.bin
@@ -55,6 +56,10 @@ $(BUILD)/fs.o: fs.img
 $(BUILD)/stdfuncs.o: kernel/drivers/stdfuncs.c kernel/includes/stdfuncs.h
 	$(CC) $(CFLAGS) -c kernel/drivers/stdfuncs.c -o $@
 	@echo "> stdfuncs.c compilato"
+
+$(BUILD)/games.o: kernel/drivers/games.c kernel/includes/games.h
+	$(CC) $(CFLAGS) -c kernel/drivers/games.c -o $@
+	@echo "> games.c compilato"
 
 $(BUILD)/kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $(BUILD)/kernel.bin $(OBJS)

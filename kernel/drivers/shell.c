@@ -2,6 +2,7 @@
 #include "../includes/keyboard.h"
 #include "../includes/time.h"
 #include "../includes/stdfuncs.h"
+#include "../includes/games.h"
 
 #define MAX_LINES 64
 #define MAX_LINE_LEN 256
@@ -138,6 +139,9 @@ void terminal_run(){
 			int cifre = str_to_int(argomento);
 			uint64_t random_number = random_dig(cifre);
 			write("%k%u\n\n",BIANCO,random_number);
+		}
+		else if(strcmp(input, "game")== 0){
+			number_guesser();
 		}
 		else if(strcmp(input, "") == 0){
 			// Nulla

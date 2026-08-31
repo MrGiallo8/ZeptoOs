@@ -146,14 +146,14 @@ uint64_t random64(){
 uint64_t random_dig(int cifre){
 	
 	if (cifre <= 0) return 0;  
-	if (cifre > 19) cifre=19 ;
+	if (cifre > 19) cifre = 19 ;
 
 	if (cifre == 1) {
         return random64() % 10;
     }
 	
-	int min; int max;
-	for (int i=0; i< cifre-1; i++){
+	uint64_t min = 1; uint64_t max;
+	for (int i=0; i < cifre-1; i++){
 		min*=10;
 	}
 	max = (min * 10) -1;
