@@ -141,7 +141,7 @@ void terminal_run(){
 			write("%k%u\n\n",BIANCO,random_number);
 		}
 		else if(strcmp(input, "game")== 0){
-			number_guesser();
+			clear_screen();game_menu();clear_screen();terminal_base();
 		}
 		else if(strcmp(input, "") == 0){
 			// Nulla
