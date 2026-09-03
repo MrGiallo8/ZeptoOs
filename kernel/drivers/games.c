@@ -16,7 +16,7 @@ void game_menu(){
         kb_readline(input, 256, pputc);
         write("\n");
         int int_input = str_to_int(input);
-        if(int_input == 1){ clear_screen(); number_guesser();}
+        if(int_input == 1){ clear_screen(); number_guesser();return;}
         else { write("%kNo game found...",ROSSO);}
     }
 }
@@ -38,6 +38,7 @@ void number_guesser(){
             write("%kPiu alto di ",BIANCO); write(input);write("\n");
         }else if(int_input == random_number){
             write("%kComplimenti! Hai vinto!",BIANCO);write("\n");
+            delay_s(3);
             return;
         }
     }
