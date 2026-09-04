@@ -143,6 +143,12 @@ void terminal_run(){
 		else if(strcmp(input, "game")== 0){
 			clear_screen();game_menu();clear_screen();terminal_base();
 		}
+		else if(strcmp(input,"bgtest")== 0){
+			write("%k%bTest\n",BIANCO,BLU);
+			write("%k%bTest\n",BLU,BIANCO);
+			write("%k%bTest\n",NERO,BIANCO);
+			write("%k%bTest\n%b\n",BIANCO,BIANCO,NERO);
+		}
 		else if(strcmp(input, "") == 0){
 			// Nulla
 		}

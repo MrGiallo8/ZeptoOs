@@ -82,9 +82,16 @@ void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 				pputc(c);
 			}
 
-			else if (*fmt == 'k') { // colori
-			    int testo = va_arg(args, int);
-			    current_color = (NERO << 4) | testo;
+			else if (*fmt == 'k') { 
+				int testo = va_arg(args, int);
+				
+				current_color = (current_color & 0xF0) | (testo & 0x0F);
+			}
+
+			else if (*fmt == 'b') {  
+				int bg = va_arg(args, int);
+			
+				current_color = (current_color & 0x0F) | ((bg & 0x0F) << 4);
 			}
 
 			else if (*fmt == 'g'){ // posizione (x,y)   
@@ -196,3 +203,7 @@ void startOS (){
 	clear_screen();
 }
 
+
+void set_bg(){
+
+}

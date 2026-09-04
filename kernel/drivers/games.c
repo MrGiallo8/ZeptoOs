@@ -4,7 +4,7 @@
 #include "../includes/stdfuncs.h"
 
 void game_menu(){
-    clear_screen(); 
+    clear_screen();("\n\n");
     bordo();write("\n");
     write_center("ZEPTO GAMES!",3, BLU_CHIARO);write("\n");
 
@@ -17,7 +17,7 @@ void game_menu(){
         write("\n");
         int int_input = str_to_int(input);
         if(int_input == 1){ clear_screen(); number_guesser();return;}
-        else { write("%kNo game found...",ROSSO);}
+        else { pputc(0xBA);write("%k No game found...",ROSSO);}
     }
 }
 
