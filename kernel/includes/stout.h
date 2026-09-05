@@ -54,4 +54,10 @@ void write_center(const char *str, int y, enum colori colore);
  
 void bordo();
 
+void sound(uint32_t freq);
+
+void no_sound();
+
+void beep(uint32_t freq, uint32_t durata);
+
 #endif

@@ -71,8 +71,9 @@ fs.img:
 	mkfs.fat -F 12 fs.img
 
 run: $(BUILD)/kernel.bin fs.img
-	qemu-system-i386 -kernel $(BUILD)/kernel.bin -vga std \
-	                 -drive file=fs.img,format=raw,if=ide
+	qemu-system-i386 -kernel build/kernel.bin -vga std \
+                 -drive file=fs.img,format=raw,if=ide \
+                 -audiodev sdl,id=audio0 -machine pcspk-audiodev=audio0
 
 clean:
 	rm -rf $(BUILD) fs.img

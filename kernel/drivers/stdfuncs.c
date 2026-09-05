@@ -162,11 +162,65 @@ uint64_t random_dig(int cifre){
     return min + (random64() % range);
 }
 
+int random_between(int min, int max) {
+    if (min > max) {
+        int temp = min;
+        min = max;
+        max = temp;
+    }
+    uint64_t range = (uint64_t)(max - min + 1);
+    return min + (int)(random64() % range);
+}
+
 int str_to_int(char str[]){
 	int integer=0;
 	for(int i=0; str[i] != '\0'; i++){
 		integer = (integer * 10) + (str[i] - '0');
 	}
 	return integer;
+}
+
+// ------------------ sound --------------------
+
+// divisore = 1193189 / freq(440) 
+
+static inline void outb(uint16_t port, uint8_t val) {
+    __asm__ __volatile__("outb %0, %1" : : "a"(val), "Nd"(port));
+}
+
+static inline uint8_t inb(uint16_t port) {
+    uint8_t ret;
+    __asm__ __volatile__("inb %1, %0" : "=a"(ret) : "Nd"(port));
+    return ret;
+}
+
+void sound(uint32_t freq){
+	if (freq == 0) {
+        no_sound();
+        return;
+    }
+
+	uint32_t div = 1193180 / freq;
+
+	outb(0x43, 0xB6);
+	outb(0x42, (uint8_t)(div & 0xFF));      
+    outb(0x42, (uint8_t)((div >> 8) & 0xFF));
+
+	// Abilita uscita speaker impostando bit 0 e 1 della porta 0x61
+	uint8_t tmp = inb(0x61);
+	if(tmp != (tmp | 3)){
+		outb(0x61, tmp | 3);
+	}
+}
+
+void no_sound(){
+	uint8_t tmp = inb(0x61) & 0xFC;
+    outb(0x61, tmp);
+}
+
+void beep(uint32_t freq, uint32_t durata) {
+    sound(freq);
+    delay_ms(durata);
+    no_sound();
 }
 

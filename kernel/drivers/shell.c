@@ -149,6 +149,24 @@ void terminal_run(){
 			write("%k%bTest\n",NERO,BIANCO);
 			write("%k%bTest\n%b\n",BIANCO,BIANCO,NERO);
 		}
+		else if(strcmp(input, "beeptest")==0){
+			write("start.\n");
+
+			uint16_t note[] = {262, 330, 392, 523, 659, 784};
+    
+			for (int i = 0; i < 6; i++) {
+				sound(note[i]);
+				
+				// Delay lungo forzato
+				for (volatile int d = 0; d < 50000000; d++) { __asm__("nop"); }
+				
+				no_sound();
+				
+				// Pausa silenziosa tra le note
+				for (volatile int d = 0; d < 10000000; d++) { __asm__("nop"); }
+			}
+			write("stop.\n");
+		}
 		else if(strcmp(input, "") == 0){
 			// Nulla
 		}

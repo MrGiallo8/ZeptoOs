@@ -20,6 +20,7 @@ void disable_cursor(void);
 
 uint64_t random();
 uint64_t random_dig(int cifre);
+int random_between(int min, int max); 
 int str_to_int(char str[]);
 
 #endif

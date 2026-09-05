@@ -79,7 +79,7 @@ void write(const char *fmt , ...){ // il '...' dice che ci sono x argomenti
 			
 			else if (*fmt == 'c') {
 				char c = (char)va_arg(args, int); // legge il valore di args e lo interperptreta come int e poi char
-				pputc(c);
+				pputc(c); 
 			}
 
 			else if (*fmt == 'k') { 
@@ -201,9 +201,4 @@ void startOS (){
 	write_center("ZeptoOS ready!",  16, BIANCO);
 	delay_ms(500);
 	clear_screen();
-}
-
-
-void set_bg(){
-
 }
