@@ -178,6 +178,9 @@ void snake_game(){
     write("%k%g#", VERDE, find_coordx(snake[1]), find_coordy(snake[1]));
     write("%k%g#", VERDE, find_coordx(snake[2]), find_coordy(snake[2]));
 
+
+    int points = 0;
+
     while(1){
 
         char key = get_key();
@@ -230,6 +233,7 @@ void snake_game(){
                 snake_len++;
             }
             delay_ms(50);
+            points++;
             mela_pos = apple_spawn(snake, snake_len);
             
         }
@@ -241,5 +245,6 @@ void snake_game(){
     }
 
     write_center("GAME OVER!",6,ROSSO);
+    write_center("Points:",7,BIANCO); write("%k%d",VERDE_CHIARO,points);
     delay_s(5);
 }
