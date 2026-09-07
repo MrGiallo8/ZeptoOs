@@ -88,10 +88,11 @@ void terminal_run(){
 			write("%k help     - show commands\n",BIANCO);
 			write("%k clear    - clear the screen\n",BIANCO);
 			write("%k quit     - exit the shell\n",BIANCO);
-			write("%k print    - print the following string",BIANCO);
-			write("%k sysinfo  - system infos",BIANCO);
-			write("%k uptime   - shows kernel uptime");
-			write("%k time     - shows time");
+			write("%k print    - print the following string\n",BIANCO);
+			write("%k sysinfo  - system infos\n",BIANCO);
+			write("%k uptime   - shows kernel uptime\n");
+			write("%k time     - shows time\n");
+			write("%k game     - shows some games!\n");
 			
 		}
 		else if (strcmp(input, "clear") == 0){

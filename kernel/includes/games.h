@@ -3,5 +3,6 @@
 
 void game_menu();
 void number_guesser();
+void snake_game();
 
 #endif
