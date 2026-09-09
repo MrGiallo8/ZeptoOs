@@ -202,12 +202,12 @@ void snake_game(){
         int new_head = (new_y * 80) + new_x;
         snake[0] = new_head;
 
-        bool collition = false;
+        bool collision = false;
 
         //controllo sbatte bordi
         for(int i=0; i<206; i++){
             if(new_head == no_numbers[i]){
-                collition = true;
+                collision = true;
                 break;
             }
         }
@@ -215,13 +215,13 @@ void snake_game(){
         //controllo sbatte se stesso
         for (int i = 1; i < snake_len; i++) {
             if (new_head == snake[i]) {
-                collition = true;
+                collision = true;
                 break;
             }
         }
 
 
-        if (collition) {
+        if (collision) {
             
             delay_ms(1);
             break;

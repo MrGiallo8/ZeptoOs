@@ -90,16 +90,18 @@ void terminal_run(){
 			write("%k quit     - exit the shell\n",BIANCO);
 			write("%k print    - print the following string\n",BIANCO);
 			write("%k sysinfo  - system infos\n",BIANCO);
-			write("%k uptime   - shows kernel uptime\n");
-			write("%k time     - shows time\n");
-			write("%k game     - shows some games!\n");
-			
+			write("%k uptime   - shows kernel uptime\n",BIANCO);
+			write("%k time     - shows time\n",BIANCO);
+			write("%k game     - shows some games!\n",BIANCO);
+			write("%k random64 - print a random 64bits number\n",BIANCO);
+			write("%k random X - print a random with X digits\n",BIANCO);
 		}
 		else if (strcmp(input, "clear") == 0){
 			clear_screen();
-			pos_char = line_terminal * 80;
 			terminal_base();
-
+		}else if (strcmp(input, "cls") == 0){
+			clear_screen();
+			terminal_base();
 		}
 		else if (strcmp_n(input, "print ",6) == 0){
 			write( input + 6 );
@@ -144,16 +146,24 @@ void terminal_run(){
 		else if(strcmp(input, "game")== 0){
 			clear_screen();game_menu();clear_screen();terminal_base();
 		}
+		else if(strcmp_n(input,"beep ",5)==0){
+			char *arg = input + 5;
+			int freq = str_to_int(arg);
+
+			beep(freq, 500);
+			no_sound();
+			write("Played %d Hz;\n",freq);
+		}
 		else if(strcmp(input,"bgtest")== 0){
 			write("%k%bTest\n",BIANCO,BLU);
 			write("%k%bTest\n",BLU,BIANCO);
 			write("%k%bTest\n",NERO,BIANCO);
 			write("%k%bTest\n%b\n",BIANCO,BIANCO,NERO);
 		}
-		else if(strcmp(input, "beeptest")==0){
+		else if(strcmp(input, "jingletest")==0){
 			write("start.\n");
 
-			uint16_t note[] = {262, 330, 392, 523, 659, 784};
+			__attribute__((aligned(4))) uint16_t note[] = {262, 330, 392, 523, 659, 784};
     
 			for (int i = 0; i < 6; i++) {
 				sound(note[i]);
