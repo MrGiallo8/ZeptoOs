@@ -161,8 +161,8 @@ void terminal_run(){
 			int num2 = str_to_int(&args[i]);
 
 			int risultato = 0;
-
-			int errors;
+			int bools = 2;
+			int errors= 0;
 
 			if (op == '+') {
 				risultato = num1 + num2;
@@ -182,7 +182,55 @@ void terminal_run(){
 				}
 				
 			}
-			if (errors != 1){write("%k%d\n\n",VERDE,risultato);}
+			else if(op == '&') {
+				risultato = num1 & num2;
+			}
+			else if(op == '|') {
+				risultato = num1 | num2;
+			}
+			else if(op == '^') {
+				risultato = num1 ^ num2;
+			}
+			else if (op == '<') {
+				if (num1 < num2){
+					bools = 1;
+				}else{
+					bools = 0;
+				}
+			}
+			else if (op == '>') {
+				if (num1 > num2){
+					bools = 1;
+				}else{
+					bools = 0;
+				}
+			}else if (op == '%') {
+				if (num2 == 0) {
+					write("%kModulo per 0!\n\n", ROSSO);
+					errors = 1;
+				} else {
+					risultato = num1 % num2;
+				}
+			}else if (op == 'L' || op == 'l') { 
+				risultato = num1 << num2;
+			} 
+			else if (op == 'R' || op == 'r') { 
+				risultato = num1 >> num2;
+			}else if (op == '=') {
+				bools = (num1 == num2) ? 1 : 0;
+			}
+			else if (op == '!') {
+				bools = (num1 != num2) ? 1 : 0;
+			}
+
+			if(bools !=2){
+				if (bools == 1){write("%kTrue\n\n",VERDE);}
+				else if(bools == 0){write("%kFalse\n\n",VERDE);}
+			}else{
+				if (errors != 1){
+					write("%k%d\n\n",VERDE,risultato);
+				}
+			}
 			
 		}
 		else if(strcmp(input, "calc")==0){
