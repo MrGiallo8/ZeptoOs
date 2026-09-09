@@ -174,7 +174,7 @@ int random_between(int min, int max) {
 
 int str_to_int(char str[]){
 	int integer=0;
-	for(int i=0; str[i] != '\0'; i++){
+	for(int i=0; str[i] >= '0' && str[i] <='9'; i++){
 		integer = (integer * 10) + (str[i] - '0');
 	}
 	return integer;

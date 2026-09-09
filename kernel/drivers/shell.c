@@ -146,6 +146,52 @@ void terminal_run(){
 		else if(strcmp(input, "game")== 0){
 			clear_screen();game_menu();clear_screen();terminal_base();
 		}
+		else if(strcmp_n(input, "calc ", 5)==0){
+
+			char *args = input+5;
+			int num1 = str_to_int(args);
+
+			int i=0;
+			while (args[i] >= '0' && args[i] <='9') i++; // salta il primo num
+			while (args[i] == ' ') i++; // salta lo spazio fra num e l'op
+			char op = args[i];
+
+			i++;
+			while(args[i] == ' ') i++; 
+			int num2 = str_to_int(&args[i]);
+
+			int risultato = 0;
+
+			int errors;
+
+			if (op == '+') {
+				risultato = num1 + num2;
+				
+			} else if (op == '-') {
+				risultato = num1 - num2;
+				
+			} else if (op == '*') {
+				risultato = num1 * num2;
+				
+			} else if (op == '/') {
+				if(num2==0){
+					write("%kDivisione per 0!",ROSSO);
+					errors = 1;
+				}else {
+					risultato = num1 / num2;
+				}
+				
+			}
+			if (errors != 1){write("%k%d\n\n",VERDE,risultato);}
+			
+		}
+		else if(strcmp(input, "calc")==0){
+			write("%kUnknown command: ",ROSSO);
+			write(input);
+			write("\n");
+			write("%kInsert an expression after : %s\n",ROSSO,input);
+			
+		}
 		else if(strcmp_n(input,"beep ",5)==0){
 			char *arg = input + 5;
 			int freq = str_to_int(arg);
