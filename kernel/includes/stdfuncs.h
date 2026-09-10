@@ -23,6 +23,10 @@ uint64_t random_dig(int cifre);
 int random_between(int min, int max); 
 int str_to_int(char str[]);
 
+unsigned int hexstr_to_int(char *str);
+void print_hex_byte(unsigned char byte);
+void hexdump (void *start, int n_bytes);
+
 #endif
 
 #ifndef STDBOOL_H

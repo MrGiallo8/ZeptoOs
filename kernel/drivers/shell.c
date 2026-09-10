@@ -240,6 +240,25 @@ void terminal_run(){
 			write("%kInsert an expression after : %s\n",ROSSO,input);
 			
 		}
+		else if (strcmp_n(input, "hexdump ", 8) == 0) {
+			char *arg = input + 8;
+
+			while (*arg == ' ') {
+				arg++;
+			}
+
+			unsigned int addr = hexstr_to_int(arg);
+
+			clear_screen();
+
+			for (int i = 0; i < 80; i++) {
+				write("%g%b ", i, 0, GRIGIO);
+			}
+			write("%g%k[ Hexdump at 0x%s ]\n\n%b", 29, 0, NERO, arg,NERO);
+
+			hexdump((void*)addr, 64);
+			write("\n");
+		}
 		else if(strcmp_n(input,"beep ",5)==0){
 			char *arg = input + 5;
 			int freq = str_to_int(arg);

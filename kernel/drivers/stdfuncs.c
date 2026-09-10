@@ -224,3 +224,57 @@ void beep(uint32_t freq, uint32_t durata) {
     no_sound();
 }
 
+// ------------------ hexadecimal --------------------
+
+unsigned int hexstr_to_int(char *str){
+	unsigned int val = 0;
+	//salta il 0x 
+	if( str[0] == '0' && (str[1]== 'x' || str[1]== 'X')){
+		str +=2;
+	}
+
+	while(*str){
+		char c = *str;
+
+		unsigned int exa_dig = 0;
+
+		if(c >= '0' && c <= '9'){
+			exa_dig = c - '0';
+		}else if(c >= 'a' && c <='f'){
+			exa_dig = c - 'a' + 10;
+		}
+		else if(c >= 'A' && c <='F'){
+			exa_dig = c - 'A' + 10;
+		}else{
+			break;
+		}
+
+		val = (val << 4) + exa_dig; // io + aggiunge nello spazio vuoto
+		// un ex occupa sempre 16bit;
+		str++;
+	}
+
+	return val;
+}
+
+void print_hex_byte(unsigned char byte){
+	char hex_chars[] = "0123456789ABCDEF";
+
+	unsigned char hg = byte >> 4;
+	unsigned char lw = byte & 0x0F;
+
+	write("%k%c%c",BIANCO,hex_chars[hg],hex_chars[lw]);
+}
+
+void hexdump (void *start, int n_bytes){
+	unsigned char *ptr = (unsigned char*) start;
+
+	for ( int i=0; i <n_bytes; i++){
+		print_hex_byte(ptr[i]);
+		write(" ");
+
+		if((i + 1) % 16== 0){
+			write("\n");
+		}
+	}
+}
