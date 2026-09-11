@@ -278,6 +278,8 @@ void song_player(){
 
         write("%g%k%b Music> ",3,12,BIANCO,NERO);
         kb_readline(input, 256, pputc);
+        write("%g                                                                                ", 3, 12);
+
         write("\n");write("%g", 11, 12);
 
         if (strcmp(input, "play") == 0) {
@@ -288,6 +290,18 @@ void song_player(){
         }
         if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
             break;
+        }
+        if(strcmp(input,"random")== 0){
+            for (int j = 0; j < 10; j++) {
+                int randm = random_between(1,1000);
+                delay_s(1);
+                notes[j] = randm;
+                write("%g", 2, 6);
+                for (int q = 0; q < 10; q++) {
+                    write("%k%b%d ", BIANCO,GRIGIO_SCURO, notes[q]);
+                }
+            }
+            
         }
 
         if (count >= 10) {
