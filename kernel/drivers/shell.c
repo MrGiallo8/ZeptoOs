@@ -254,10 +254,22 @@ void terminal_run(){
 			for (int i = 0; i < 80; i++) {
 				write("%g%b ", i, 0, GRIGIO);
 			}
-			write("%g%k[ Hexdump at 0x%s ]\n\n%b", 29, 0, NERO, arg,NERO);
+			write("%g%k[ Hexdump at %s ]\n\n%b", 29, 0, NERO, arg,NERO);
 
-			hexdump((void*)addr, 64);
-			write("\n");
+			hexdump((void*)addr, 256);
+
+			write("\n\n Press \'w\' to exit the hexdump...");
+			
+			while (1) {
+				char k = get_key();
+				
+				if (k == 'w') {
+					write("%k\n Leaving the hexdump...\n", BIANCO);
+					delay_s(2);
+					break; 
+				}
+			}
+			clear_screen();terminal_base();
 		}
 		else if(strcmp_n(input,"beep ",5)==0){
 			char *arg = input + 5;

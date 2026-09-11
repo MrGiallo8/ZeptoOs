@@ -16,8 +16,6 @@ static inline unsigned char inb(unsigned short port) {
 volatile char last_key = 0;
 
 char get_key(void) {
-    // Controlla il registro di stato della tastiera (porta 0x64)
-    // Se il bit 0 è 1, c'è un byte pronto nella porta 0x60
     if (inb(0x64) & 0x01) {
         uint8_t scancode = inb(0x60);
 
@@ -29,7 +27,7 @@ char get_key(void) {
             default: return 0;
         }
     }
-    return 0; // Nessun tasto premuto
+    return 0; 
 }
 
 void game_menu(){
@@ -40,6 +38,7 @@ void game_menu(){
     write_center("0. Exit",6, BLU_CHIARO);
     write_center("1. NUMBER_GUESSER",7, BLU_CHIARO);
     write_center("2. SNAKE",8, BLU_CHIARO);
+    write_center("3. MUSIC COMPOSER",9, BLU_CHIARO);
 
     char input[256];
     while (1){
@@ -50,6 +49,7 @@ void game_menu(){
         if(int_input == 1){ clear_screen(); number_guesser();return;}
         else if(int_input == 0){return;}
         else if(int_input == 2){clear_screen(); snake_game();return;}
+        else if(int_input == 3){clear_screen(); song_player(); return;}
         else { write("%g%k No game found... ", 3, 12, ROSSO);}
     }
 }
@@ -247,4 +247,60 @@ void snake_game(){
     write_center("GAME OVER!",6,ROSSO);
     write_center("Points:",7,BIANCO); write("%k%d",VERDE_CHIARO,points);
     delay_s(5);
+}
+
+void song_player(){
+
+    int notes[10] = {0};
+    int count = 0;
+
+    clear_screen();
+    for(int i=0;i<80;i++){
+		write("%g%b ",i,0,GRIGIO);
+	}
+
+    write_center("[ Music composer ]",0,NERO);
+    write("\n\n%k%g%b Music Sheet:\n\n",BIANCO,3,5,NERO);
+
+    for(int i=0;i<80;i++){
+		write("%g%b ",i,6,GRIGIO_SCURO);
+	}
+
+    char input[256];
+
+
+    while (1){
+
+        write("%g", 2, 6);
+        for (int j = 0; j < count; j++) {
+            write("%k%b%d ", BIANCO,GRIGIO_SCURO, notes[j]);
+        }
+
+        write("%g%k%b Music> ",3,12,BIANCO,NERO);
+        kb_readline(input, 256, pputc);
+        write("\n");write("%g", 11, 12);
+
+        if (strcmp(input, "play") == 0) {
+            for (int j = 0; j < count; j++) {
+                beep(notes[j], 500);
+            }
+            continue; 
+        }
+        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
+            break;
+        }
+
+        if (count >= 10) {
+            write("%k Max notes reached!\n", ROSSO);
+            continue;
+        }
+
+        int nota = str_to_int(input);
+        
+
+        if (nota > 0) {
+            notes[count] = nota;
+            count++;
+        }
+    }
 }
