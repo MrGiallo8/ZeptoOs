@@ -288,6 +288,34 @@ void song_player(){
             }
             continue; 
         }
+        if(strcmp(input,"C")== 0){
+            notes[count] = 262;
+            count++;
+        }
+        if(strcmp(input,"D")== 0){
+            notes[count] = 294;
+            count++;
+        }
+        if(strcmp(input,"E")== 0){
+            notes[count] = 330;
+            count++;
+        }
+        if(strcmp(input,"F")== 0){
+            notes[count] = 349;
+            count++;
+        }
+        if(strcmp(input,"G")== 0){
+            notes[count] = 392;
+            count++;
+        }
+        if(strcmp(input,"A")== 0){
+            notes[count] = 440;
+            count++;
+        }
+        if(strcmp(input,"B")== 0){
+            notes[count] = 494;
+            count++;
+        }
         if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
             break;
         }
