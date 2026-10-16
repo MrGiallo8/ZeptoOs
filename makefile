@@ -16,6 +16,7 @@ OBJS = $(BUILD)/boot.o \
        $(BUILD)/shell.o \
 	   $(BUILD)/stdfuncs.o \
 	   $(BUILD)/games.o \
+	   $(BUILD)/ata.o \
        $(BUILD)/fs.o 
 
 all: $(BUILD) $(BUILD)/kernel.bin
@@ -60,6 +61,10 @@ $(BUILD)/stdfuncs.o: kernel/drivers/stdfuncs.c kernel/includes/stdfuncs.h
 $(BUILD)/games.o: kernel/drivers/games.c kernel/includes/games.h
 	$(CC) $(CFLAGS) -c kernel/drivers/games.c -o $@
 	@echo "> games.c compilato"
+
+$(BUILD)/ata.o: kernel/drivers/filesys/ata.c kernel/includes/ata.h
+	$(CC) $(CFLAGS) -c kernel/drivers/filesys/ata.c  -o $@
+	@echo "> ata.c compilato"
 
 $(BUILD)/kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $(BUILD)/kernel.bin $(OBJS)
