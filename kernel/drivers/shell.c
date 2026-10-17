@@ -12,7 +12,46 @@
 char editor_buffer[MAX_LINES][MAX_LINE_LEN];
 int  editor_line_count = 0;
 
-void text_editor() {
+void load_file_into_editor(const char *filename) {
+    uint8_t read_buff[2048];
+    uint32_t read_size = 0;
+
+    int res = read_file(filename, read_buff, &read_size);
+    if (res != 0) {
+        return; 
+    }
+    
+    for(int i = 0; i < MAX_LINES; i++) {
+        editor_buffer[i][0] = '\0';
+    }
+    
+    int l = 0; 
+    int c = 0; 
+    
+    for (uint32_t i = 0; i < read_size && l < MAX_LINES; i++) {
+        char ch = (char)read_buff[i];
+        
+        if (ch == '\n' || ch == '\r') {
+            if (ch == '\r' && i + 1 < read_size && read_buff[i+1] == '\n') {
+                continue; 
+            }
+            editor_buffer[l][c] = '\0';
+            l++;
+            c = 0;
+
+        } else {
+            if (c < MAX_LINE_LEN - 1) {
+                editor_buffer[l][c] = ch;
+                c++;
+                editor_buffer[l][c] = '\0';
+            }
+        }
+    }
+    
+    editor_line_count = (l > 0) ? l : 1;
+}
+
+void text_editor(char *filename_to_open) {
     clear_screen();
 
     for(int i = 0; i < 80; i++){
@@ -22,13 +61,104 @@ void text_editor() {
     write_center("[ Text Editor ]", 0, NERO);
 
     for(int i = 1; i < 23; i++){
-        write("%g%b%d", 0, i, GRIGIO, i); 
+		if(i<10){
+			write("%g%b0%d", 0, i, GRIGIO, i); 
+		} else{
+			write("%g%b%d", 0, i, GRIGIO, i); 
+		}
+    }
+
+	for(int i = 0; i < MAX_LINES; i++) {
+        editor_buffer[i][0] = '\0';
+    }
+    editor_line_count = 1;
+
+	if (filename_to_open != 0 && filename_to_open[0] != '\0') {
+        load_file_into_editor(filename_to_open);
+        
+        for (int i = 0; i < editor_line_count; i++) {
+            set_cursor_position(4, i + 1);
+            write("%s", editor_buffer[i]);
+        }
+    }
+
+
+	int cur_x = 4; 
+    int cur_y = 1;  
+    int line_idx = 0;
+    int col_idx = 0;
+
+	for(int i = 0; i < MAX_LINES; i++) {
+        editor_buffer[i][0] = '\0';
+    }
+    editor_line_count = 1;
+
+	while(1){
+        set_cursor_position(cur_x, cur_y); pos_char = cur_y * 80 + cur_x;
+
+        char c = kb_getchar();
+
+        if(kb_is_ctrl_pressed()){
+            if(c == 's' || c == 'S'){
+                clear_screen(); 
+                char filename[16];
+				bordo();
+                write_center("Insert file name: ", 10, BIANCO);
+                set_cursor_position(32, 13); pos_char = 11 * 80 + 32;
+                kb_readline(filename, 16, pputc);
+
+                write_file(filename, editor_buffer, editor_line_count); clear_screen();terminal_base(); 
+                return;
+            }
+            if (c == 'q' || c == 'Q') {
+                break;
+            }
+            continue;
+        }
+
+        if (c == '\n' || c == 13) {
+            if (line_idx < MAX_LINES - 1) {
+                line_idx++;
+                editor_line_count++;
+                col_idx = 0;
+                cur_x = 4; 
+                cur_y++; 
+                if (cur_y > 22) cur_y = 22;
+            }
+        }
+
+        else if (c == 8 || c == 127) {
+            if (col_idx > 0) {
+                col_idx--;
+                cur_x--;
+                editor_buffer[line_idx][col_idx] = '\0';
+
+                set_cursor_position(cur_x, cur_y);pos_char = cur_y * 80 + cur_x;
+                write(" ");
+                set_cursor_position(cur_x, cur_y);pos_char = cur_y * 80 + cur_x;
+            }
+        }
+
+        else if (c >= 32 && c <= 126) {
+            if (col_idx < MAX_LINE_LEN - 1 && cur_x < 78) {
+                editor_buffer[line_idx][col_idx] = c;
+                editor_buffer[line_idx][col_idx + 1] = '\0';
+                
+
+                write("%k%b%c", BIANCO, NERO, c);
+                
+                col_idx++;
+                cur_x++;
+            }
+        }
     }
 }
 
+
+
 void terminal_base(){
 	write("\n%k \xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB", BIANCO);
-	write("\n%k \xBA                        %kZeptoOS Kernel v0.2.1 alpha                        %k\xBA", BIANCO, BLU_CHIARO, BIANCO);
+	write("\n%k \xBA                        %kZeptoOS Kernel v0.3.0 alpha                        %k\xBA", BIANCO, BLU_CHIARO, BIANCO);
 	write("\n%k \xCC\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xB9", BIANCO);
 	write("\n%k \xBA  Mode: Protected 32-bit       | CPU: x86 fam                              \xBA", BIANCO);
 	write("\n%k \xC8\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBC", BIANCO);
@@ -74,7 +204,7 @@ void terminal_run(){
 		}
 		else if(strcmp(input, "sysinfo")== 0){
 
-			write("%k [ OS ]       %kZeptoOS v0.2.1 alpha\n", GRIGIO_SCURO, BIANCO);
+			write("%k [ OS ]       %kZeptoOS v0.3.0 alpha\n", GRIGIO_SCURO, BIANCO);
     		write("%k [ Mode ]     %kx86 (32-bit Protected Mode)\n", GRIGIO_SCURO, BIANCO);
     		write("%k [ Display ]  %kVGA Text Mode (80x25)\n", GRIGIO_SCURO, BIANCO);
     		write("%k [ Storage ]  %kFAT12 (fs.img)\n\n", GRIGIO_SCURO, BIANCO);
@@ -95,8 +225,9 @@ void terminal_run(){
 
 			if(sec<10) {write("0");} write("%k%d ]\n\n",BIANCO,sec);
 		}
-		else if(strcmp(input, "editor")== 0){
-			text_editor();
+		else if(strcmp_n(input, "editor", 6)== 0){
+			int *arg = input + 6;
+			text_editor(arg);
 		}
 		else if(strcmp(input, "random64")==0){
 			uint64_t n_random = random64();
@@ -265,6 +396,25 @@ void terminal_run(){
 			} else {
 				write("%kError: cannot find the file or the file cannot be read.\n",ROSSO);
 			}
+		}
+		else if(strcmp_n(input,"read ",5)==0){
+			char *filename = input + 5;
+
+			uint8_t read_buff[512];
+			uint32_t read_size = 0;
+			
+
+			int resq = read_file(filename, read_buff, &read_size);
+			if (resq == 0) {
+				if (read_size > 511) read_size = 511;
+				read_buff[read_size] = '\0';
+				write("%kFile read successfully, file:\n",BIANCO);
+				write("%s", (char *)read_buff);
+				write("\n");
+			} else {
+				write("%kError: cannot find the file or the file cannot be read.\n",ROSSO);
+			}
+
 		}
 		else if(strcmp_n(input,"beep ",5)==0){
 			char *arg = input + 5;

@@ -6,5 +6,6 @@
 char kb_getchar(void);
 
 void kb_readline(char *buf, int max, void (*echo)(char));
+int kb_is_ctrl_pressed(void);
 
 #endif

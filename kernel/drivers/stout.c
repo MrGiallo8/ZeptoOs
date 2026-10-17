@@ -169,32 +169,11 @@ void startOS (){
 	clear_screen();
 	bordo();
 	write_center("#####  #####  ####   #####   ###          ###     ###", 2, BLU_CHIARO);
-	delay_ms(200);
 	write_center("   #   #      #   #    #    #   #        #   #   #   ", 3, BLU_CHIARO);
-	delay_ms(200);
 	write_center("  #    #####  ####     #    #   #        #   #    ## ", 4, BLU_CHIARO);
-	delay_ms(200);
 	write_center(" #     #      #        #    #   #        #   #      #", 5, BLU_CHIARO);
-	delay_ms(200);
 	write_center("####   #####  #        #     ###          ###    ### ", 6, BLU_CHIARO);
-	delay_ms(200);
-	delay_s(1);
-	write_center("v0.2.0",  9, VERDE_CHIARO);
-	delay_s(1);
-	for(int i=0;i<3;i++){
-		write_center("|", 13, BIANCO);
-		delay_ms(200);
-		write_center("\b", 13, BIANCO);
-		write_center("\\", 13, BIANCO);
-		delay_ms(200);
-		write_center("\b", 13, BIANCO);
-		write_center("-", 13, BIANCO);
-		delay_ms(200);
-		write_center("\b", 13, BIANCO);
-		write_center("/", 13, BIANCO);
-		delay_ms(200);
-		write_center("\b", 13, BIANCO);
-	} 
+	write_center("v0.3.0",  9, VERDE_CHIARO);
 	
 	write_center("Starting OS...",  16, BIANCO);
 	delay_s(1);

@@ -154,7 +154,7 @@ int write_file(const char *filename, const uint8_t *buffer, uint32_t file_size){
                 entries[i].creation_time = 0;
                 entries[i].creation_date = 0;
                 entries[i].last_access_date = 0;
-                entries[i].first_cluster_hi = 0;    // 0 in FAT12[cite: 2]
+                entries[i].first_cluster_hi = 0; 
                 entries[i].modify_time = 0;
                 entries[i].modify_date = 0;
                 entries[i].first_cluster = free_clust;

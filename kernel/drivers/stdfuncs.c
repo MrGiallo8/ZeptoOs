@@ -278,3 +278,13 @@ void hexdump (void *start, int n_bytes){
 		}
 	}
 }
+
+void set_cursor_position(int x, int y) {
+    unsigned short position = (y * 80) + x;
+
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (unsigned char)(position & 0xFF));
+    
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
+}
