@@ -27,5 +27,6 @@ typedef struct __attribute__((packed)) {
 } BootSector;
 
 void read_sector_ata(uint32_t lba, uint8_t *buffer);
+void write_sector_ata(uint32_t lba, const uint8_t *buff);
 
 #endif

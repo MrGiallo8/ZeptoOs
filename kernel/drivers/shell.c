@@ -3,6 +3,8 @@
 #include "../includes/time.h"
 #include "../includes/stdfuncs.h"
 #include "../includes/games.h"
+#include "../includes/fat12.h"
+#include "../includes/ata.h"
 
 #define MAX_LINES 64
 #define MAX_LINE_LEN 256
@@ -12,52 +14,15 @@ int  editor_line_count = 0;
 
 void text_editor() {
     clear_screen();
-    char input[MAX_LINE_LEN];
-    int line = 0;
 
-    write("\n%k====================================%k[EDITOR]%k====================================\n",
-          BIANCO, VERDE, BIANCO);
-
-    // Mostra il contenuto già salvato (se si riapre)
-    if (editor_line_count > 0) {
-        write("%k-- contenuto salvato --%k\n", GIALLO, BIANCO);
-        for (int i = 0; i < editor_line_count; i++) {
-            write("  %d: %s\n", i + 1, editor_buffer[i]);
-        }
-        write("%k-- fine -- continua a scrivere, ***quit per uscire --%k\n", GIALLO, BIANCO);
-        line = editor_line_count;  // continua dall'ultima riga 
+    for(int i = 0; i < 80; i++){
+        write("%g%b ", i, 0, GRIGIO);
     }
 
-    while (1) {
-        kb_readline(input, MAX_LINE_LEN, pputc);
+    write_center("[ Text Editor ]", 0, NERO);
 
-        if (strcmp(input, "***quit") == 0) {
-            // Salva in RAM
-            editor_line_count = line;
-            return;
-
-        } else if (strcmp(input, "***show") == 0) {
-            // Mostra il testo scritto fino ad ora
-            for (int i = 0; i < line; i++) {
-                write("  %d: %s\n", i + 1, editor_buffer[i]);
-            }
-
-        } else if (strcmp(input, "***clear") == 0) {
-            // Svuota il buffer
-            line = 0;
-            editor_line_count = 0;
-            write("%k[buffer svuotato]%k\n", ROSSO, BIANCO);
-
-        } else if (line < MAX_LINES) {
-            // Salva la riga nel buffer
-            int i;
-            for (i = 0; input[i] && i < MAX_LINE_LEN - 1; i++)
-                editor_buffer[line][i] = input[i];
-            editor_buffer[line][i] = '\0';
-            line++;
-        } else {
-            write("%k[buffer pieno!]%k\n", ROSSO, BIANCO);
-        }
+    for(int i = 1; i < 23; i++){
+        write("%g%b%d", 0, i, GRIGIO, i); 
     }
 }
 
@@ -270,6 +235,36 @@ void terminal_run(){
 				}
 			}
 			clear_screen();terminal_base();
+		}
+		else if (strcmp_n(input, "touch ", 6) == 0) {
+			char *filename = input + 6;
+			char *content = "Ciao, questo e' un file di test scritto dal kernel!\n";
+			
+			uint32_t len = strleng(content);
+			write("len=%d\n", len);
+			int res = write_file(filename, (const uint8_t *)content, len);
+			write("res=%d\n", res);
+
+			if (res == 0) {
+				write("%kFile written successfully!\n", BIANCO);
+			} else {
+				write("%kError during the writing of the file.\n", ROSSO);
+			}
+
+			uint8_t read_buff[512];
+			uint32_t read_size = 0;
+			
+
+			int resq = read_file(filename, read_buff, &read_size);
+			if (resq == 0) {
+				if (read_size > 511) read_size = 511;
+				read_buff[read_size] = '\0';
+				write("%kFile read successfully, file:\n",BIANCO);
+				write("%s", (char *)read_buff);
+				write("\n");
+			} else {
+				write("%kError: cannot find the file or the file cannot be read.\n",ROSSO);
+			}
 		}
 		else if(strcmp_n(input,"beep ",5)==0){
 			char *arg = input + 5;
