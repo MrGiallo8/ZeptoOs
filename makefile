@@ -30,9 +30,9 @@ $(BUILD)/boot.o: boot/boot.s
 	$(AS) $(ASFLAGS) boot/boot.s -o $@
 	@echo "> boot.s assemblato"
 
-# Kernel da src/kernel/fs/
-$(BUILD)/kernel.o: src/kernel/fs/kernel.c
-	$(CC) $(CFLAGS) -c src/kernel/fs/kernel.c -o $@
+# Kernel da src/kernel/
+$(BUILD)/kernel.o: src/kernel/kernel.c
+	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o $@
 	@echo "> kernel.c compilato"
 
 # Librerie da src/lib/
