@@ -2,7 +2,7 @@ AS = nasm
 LD = ld
 CC = gcc
 
-CFLAGS  = -m32 -ffreestanding -fno-pic -Wall -Wextra -O0 -Ikernel/includes -std=gnu99
+CFLAGS  = -m32 -ffreestanding -fno-pic -Wall -Wextra -O0 -Isrc/includes -std=gnu99
 ASFLAGS = -f elf32
 LDFLAGS = -m elf_i386 -T linker.ld
 
@@ -14,10 +14,10 @@ OBJS = $(BUILD)/boot.o \
        $(BUILD)/keyboard.o \
        $(BUILD)/time.o \
        $(BUILD)/shell.o \
-	   $(BUILD)/stdfuncs.o \
-	   $(BUILD)/games.o \
-	   $(BUILD)/ata.o \
-	   $(BUILD)/fat12.o \
+       $(BUILD)/stdfuncs.o \
+       $(BUILD)/games.o \
+       $(BUILD)/ata.o \
+       $(BUILD)/fat12.o \
        $(BUILD)/fs.o 
 
 all: $(BUILD) $(BUILD)/kernel.bin
@@ -30,46 +30,50 @@ $(BUILD)/boot.o: boot/boot.s
 	$(AS) $(ASFLAGS) boot/boot.s -o $@
 	@echo "> boot.s assemblato"
 
-# Kernel da kernel/
-$(BUILD)/kernel.o: kernel/kernel.c
-	$(CC) $(CFLAGS) -c kernel/kernel.c -o $@
+# Kernel da src/kernel/fs/
+$(BUILD)/kernel.o: src/kernel/fs/kernel.c
+	$(CC) $(CFLAGS) -c src/kernel/fs/kernel.c -o $@
 	@echo "> kernel.c compilato"
 
-# Driver da kernel/drivers/ e include da kernel/includes/
-$(BUILD)/stout.o: kernel/drivers/stout.c kernel/includes/stout.h
-	$(CC) $(CFLAGS) -c kernel/drivers/stout.c -o $@
+# Librerie da src/lib/
+$(BUILD)/stout.o: src/lib/stout.c src/includes/stout.h
+	$(CC) $(CFLAGS) -c src/lib/stout.c -o $@
 	@echo "> stout.c compilato"
 
-$(BUILD)/keyboard.o: kernel/drivers/keyboard.c kernel/includes/keyboard.h
-	$(CC) $(CFLAGS) -c kernel/drivers/keyboard.c -o $@
-	@echo "> keyboard.c compilato"
-
-$(BUILD)/time.o: kernel/drivers/time.c kernel/includes/time.h
-	$(CC) $(CFLAGS) -c kernel/drivers/time.c -o $@
-	@echo "> time.c compilato"
-
-$(BUILD)/shell.o: kernel/drivers/shell.c kernel/includes/shell.h
-	$(CC) $(CFLAGS) -c kernel/drivers/shell.c -o $@
-	@echo "> shell.c compilato"
-
-$(BUILD)/fs.o: fs.img
-	$(LD) -m elf_i386 -r -b binary fs.img -o $(BUILD)/fs.o
-
-$(BUILD)/stdfuncs.o: kernel/drivers/stdfuncs.c kernel/includes/stdfuncs.h
-	$(CC) $(CFLAGS) -c kernel/drivers/stdfuncs.c -o $@
+$(BUILD)/stdfuncs.o: src/lib/stdfuncs.c src/includes/stdfuncs.h
+	$(CC) $(CFLAGS) -c src/lib/stdfuncs.c -o $@
 	@echo "> stdfuncs.c compilato"
 
-$(BUILD)/games.o: kernel/drivers/games.c kernel/includes/games.h
-	$(CC) $(CFLAGS) -c kernel/drivers/games.c -o $@
-	@echo "> games.c compilato"
+# Driver da src/kernel/drivers/
+$(BUILD)/keyboard.o: src/kernel/drivers/keyboard.c src/includes/keyboard.h
+	$(CC) $(CFLAGS) -c src/kernel/drivers/keyboard.c -o $@
+	@echo "> keyboard.c compilato"
 
-$(BUILD)/ata.o: kernel/drivers/filesys/ata.c kernel/includes/ata.h
-	$(CC) $(CFLAGS) -c kernel/drivers/filesys/ata.c  -o $@
+$(BUILD)/time.o: src/kernel/drivers/time.c src/includes/time.h
+	$(CC) $(CFLAGS) -c src/kernel/drivers/time.c -o $@
+	@echo "> time.c compilato"
+
+$(BUILD)/ata.o: src/kernel/drivers/ata.c src/includes/ata.h
+	$(CC) $(CFLAGS) -c src/kernel/drivers/ata.c -o $@
 	@echo "> ata.c compilato"
 
-$(BUILD)/fat12.o: kernel/drivers/filesys/fat12.c kernel/includes/fat12.h
-	$(CC) $(CFLAGS) -c kernel/drivers/filesys/fat12.c  -o $@
+# Filesystem da src/kernel/fs/
+$(BUILD)/fat12.o: src/kernel/fs/fat12.c src/includes/fat12.h
+	$(CC) $(CFLAGS) -c src/kernel/fs/fat12.c -o $@
 	@echo "> fat12.c compilato"
+
+# Programmi utente da src/user/
+$(BUILD)/shell.o: src/user/shell.c src/includes/shell.h
+	$(CC) $(CFLAGS) -c src/user/shell.c -o $@
+	@echo "> shell.c compilato"
+
+$(BUILD)/games.o: src/user/games.c src/includes/games.h
+	$(CC) $(CFLAGS) -c src/user/games.c -o $@
+	@echo "> games.c compilato"
+
+# Filesystem image incorporata
+$(BUILD)/fs.o: fs.img
+	$(LD) -m elf_i386 -r -b binary fs.img -o $(BUILD)/fs.o
 
 $(BUILD)/kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $(BUILD)/kernel.bin $(OBJS)
@@ -82,8 +86,8 @@ fs.img:
 
 run: $(BUILD)/kernel.bin fs.img
 	qemu-system-i386 -kernel build/kernel.bin -vga std \
-                 -drive file=fs.img,format=raw,if=ide \
-                 -audiodev sdl,id=audio0 -machine pcspk-audiodev=audio0
+			 -drive file=fs.img,format=raw,if=ide \
+			 -audiodev sdl,id=audio0 -machine pcspk-audiodev=audio0
 
 clean:
 	rm -rf $(BUILD) fs.img

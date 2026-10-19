@@ -1,5 +1,11 @@
-#include "../includes/stout.h"
-#include "../includes/stdfuncs.h"
+#include <stout.h>
+#include <time.h>
+#include <keyboard.h>
+#include <stdfuncs.h>
+#include <fat12.h>
+#include <ata.h>
+#include <shell.h>
+#include <games.h>
 
 #define pit_canale0 0x40
 #define pit_comando 0x43

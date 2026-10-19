@@ -1,9 +1,11 @@
-#include "../../includes/stout.h"
-#include "../../includes/time.h"
-#include "../../includes/keyboard.h"
-#include "../../includes/stdfuncs.h"
-#include "../../includes/fat12.h"
-#include "../includes/ata.h"
+#include <stout.h>
+#include <time.h>
+#include <keyboard.h>
+#include <stdfuncs.h>
+#include <fat12.h>
+#include <ata.h>
+#include <shell.h>
+#include <games.h>
 
 void format_to_fat83(const char *input, char *dest_name, char *dest_ext) {
 

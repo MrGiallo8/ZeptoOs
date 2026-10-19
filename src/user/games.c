@@ -1,7 +1,11 @@
-#include "../includes/stout.h"
-#include "../includes/time.h"
-#include "../includes/keyboard.h"
-#include "../includes/stdfuncs.h"
+#include <stout.h>
+#include <time.h>
+#include <keyboard.h>
+#include <stdfuncs.h>
+#include <fat12.h>
+#include <ata.h>
+#include <shell.h>
+#include <games.h>
 
 static inline void outb(unsigned short port, unsigned char val) {
     __asm__ volatile ("outb %0, %1" : : "a"(val), "Nd"(port));

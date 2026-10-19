@@ -1,10 +1,11 @@
-#include "../includes/stout.h"
-#include "../includes/keyboard.h"
-#include "../includes/time.h"
-#include "../includes/stdfuncs.h"
-#include "../includes/games.h"
-#include "../includes/fat12.h"
-#include "../includes/ata.h"
+#include <stout.h>
+#include <time.h>
+#include <keyboard.h>
+#include <stdfuncs.h>
+#include <fat12.h>
+#include <ata.h>
+#include <shell.h>
+#include <games.h>
 
 #define MAX_LINES 64
 #define MAX_LINE_LEN 256

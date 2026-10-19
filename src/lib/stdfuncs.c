@@ -1,4 +1,4 @@
-#include "../includes/stout.h"
+#include <sdout.h>
 
 // ----------------pputc & pputs & print_int-----------------
 

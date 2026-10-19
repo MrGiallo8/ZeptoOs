@@ -1,4 +1,4 @@
-#include "../includes/stdfuncs.h"
+#include <stdfuncs.h>
 
 typedef __builtin_va_list va_list;
 #define va_start(ap, last) __builtin_va_start(ap, last)
